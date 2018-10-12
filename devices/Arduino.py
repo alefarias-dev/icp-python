@@ -50,7 +50,7 @@ class Arduino(Device, Thread):
     def keep_alive_to_all(self):
         message = {
             'action': 'keepAlive',
-            'device': self.address,
+            'origin': self.address,
             'timestamp': round(time.time())
         }
         device_status_copy = self.devices_status.copy()

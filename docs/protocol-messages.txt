@@ -12,6 +12,7 @@ Raspberry
     To - Arduino
         {
             'action':'newDevice',
+            'origin': 'localhost:1111',
             'device':'localhost:9087'
         }
 
@@ -19,6 +20,7 @@ Raspberry
     To - Arduino
         {
             'action':'changeStatus',
+            'origin': 'localhost:1111',
             'status': 0
         }
 
@@ -26,12 +28,14 @@ Raspberry
     To - Arduino
         {
             'action':'getDeviceList'
+            'origin': 'localhost:1111',
         }
 
     R5 - Update devices list most recent timestamps
     To - Arduino
         {
             'action':'updateDeviceList',
+            'origin': 'localhost:1111',
             'list':{
                 'localhost:9087':123123213,
                 'localhost:9089':433242233,
@@ -45,6 +49,7 @@ Arduino
     To - Arduino
         {
             'action':'keepAlive',
+            'origin': 'localhost:1111',
             'timestamp': 123144123
         }
 
@@ -52,6 +57,7 @@ Arduino
     To - Raspberry
         {
             'action':'deviceList',
+            'origin': 'localhost:1111',
             'list':{
                 'localhost:9087':31231223,
                 'localhost:9089':13121232,

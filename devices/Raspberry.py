@@ -52,6 +52,7 @@ class Raspberry(Device, Thread):
         self.devices.append(device_address)
         message = {
             'action': 'newDevice',
+            'origin': self.address,
             'device': device_address
         }
         prepared_message = self.prepare_message(message)

@@ -14,7 +14,7 @@ class ArduinoInterpreter:
         # A1 - From Arduino
         if action == 'keepAlive':
             timestamp = protocol_message['timestamp']
-            device_address = protocol_message['device']
+            device_address = protocol_message['origin']
             self.device.update_device_keep_alive(tuple(device_address), timestamp)
             return
 
