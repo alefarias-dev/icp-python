@@ -53,8 +53,8 @@ Arduino
         {
             'action':'deviceList',
             'list':{
-                'localhost:9087':0,
-                'localhost:9089':1,
-                'localhost:9091':1
+                'localhost:9087':31231223,
+                'localhost:9089':13121232,
+                'localhost:9091':21333122
             }
         }

@@ -1,3 +1,4 @@
+import json
 from net_utils.tcp.TCPClient import TCPClient
 from net_utils.tcp.TCPServer import TCPServer
 from net_utils.udp.UDPClient import UDPClient
@@ -25,3 +26,6 @@ class Device:
         host, port = self.address
         self.udp_server = UDPServer(host, port + 1, self)
         self.udp_server.start()
+
+    def prepare_message(self, message_dict):
+        return json.dumps(message_dict).encode("utf-8")

@@ -1,4 +1,3 @@
-import json
 from devices.Device import Device
 from interpreters.ArduinoInterpreter import ArduinoInterpreter
 from resources.Resource import Resource
@@ -27,11 +26,14 @@ class Arduino(Device):
         self.devices_status.update(devices_list)
 
     def send_devices_status_list(self, destination):
-        self.udp_client.send_message(destination, json.dumps(self.devices_status).encode('utf-8'))
+        message = {
+            'action': 'deviceList',
+            'list': self.devices_status
+        }
+        self.udp_client.send_message(destination, self.prepare_message(message))
 
     def call_to_action(self, message, client):
-        # self.interpreter.interprete_message(message, client)
-        pass
+        self.interpreter.interprets_message(message, client)
 
 
 if __name__ == "__main__":
