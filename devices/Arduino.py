@@ -1,11 +1,15 @@
+import time
+from threading import Thread
+
 from devices.Device import Device
 from interpreters.ArduinoInterpreter import ArduinoInterpreter
 from resources.Resource import Resource
 
 
-class Arduino(Device):
+class Arduino(Device, Thread):
 
     def __init__(self, address, name):
+        Thread.__init__(self)
         super().__init__(address, name)
         self.resource = Resource(f"{name}-RESOURCE")
         self.interpreter = ArduinoInterpreter(self)
@@ -32,9 +36,19 @@ class Arduino(Device):
         }
         self.udp_client.send_message(destination, self.prepare_message(message))
 
+    def keep_alive_to_all(self):
+        message = {
+            'action': 'keepAlive',
+            'timestamp': time.time()
+        }
+        for device in self.devices_status.keys():
+            self.udp_client.send_message(device, self.prepare_message(message))
+
     def call_to_action(self, message, client):
         self.interpreter.interprets_message(message, client)
 
-
-if __name__ == "__main__":
-    ard = Arduino(("localhost", 9087), "A01")
+    def run(self):
+        while True:
+            time.sleep(5)
+            print(f"{self.name} sending keep-alive")
+            self.keep_alive_to_all()
