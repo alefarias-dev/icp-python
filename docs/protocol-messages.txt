@@ -1,0 +1,69 @@
+Client
+    C1 - Change resource status
+    To - Raspberry
+        {
+            'action':'changeStatus'
+            'device':'localhost:9087',
+            'status':0
+        }
+
+Raspberry
+    R1 - Inform new device to network
+    To - One device in network (Arduino)
+        {
+            'action':'newDevice',
+            'device':'localhost:9087'
+        }
+
+    R2 - Change resource status
+    To - One device in network (Arduino)
+        {
+            'action':'changeStatus'
+            'device':'localhost:9087',
+            'status':0
+        }
+
+    R3 - Inform device offline in network
+    To - All devices in network except offline device (Arduinos)
+        {
+            'action':'deviceOffline',
+            'device':'localhost:9087',
+            'timestamp': 1212124325
+        }
+
+    R4 - Get device information list
+    To - One device in network (Arduino)
+        {
+            'action':'getDeviceList'
+        }
+
+    R5 - Update devices list of active and inactive devices
+    To - All devices in network except offline devices (Arduinos)
+        {
+            'action':'updateDeviceList',
+            'list':{
+                'localhost:9087':0,
+                'localhost:9089':1,
+                'localhost:9091':1
+            }
+        }
+
+Arduino
+
+    A1 - Inform to device that keep alive
+    To - One device in network (Arduino)
+        {
+            'action':'keepAlive',
+            'timestamp': 123144123
+        }
+
+    A2 - Inform device list
+    To - Raspberry
+        {
+            'action':'deviceList',
+            'list':{
+                'localhost:9087':0,
+                'localhost:9089':1,
+                'localhost:9091':1
+            }
+        }
