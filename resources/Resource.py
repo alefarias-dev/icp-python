@@ -18,14 +18,3 @@ class Resource:
 
     def __repr__(self):
         return f"{self.name}: {self.state}"
-
-
-if __name__ == "__main__":
-    """ TODO: remove this after, its only for
-    testing purposes
-    """
-    r = Resource("Lamp")
-    r.set_on()
-    print(r)
-    r.set_off()
-    print(r)
