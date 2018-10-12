@@ -18,7 +18,7 @@ class TCPServer(Thread):
         connection, client = self.socket.accept()
         message = connection.recv(1024)
         connection.close()
-        self.device.call_to_action(message.decode("utf-8"))
+        self.device.call_to_action((message.decode("utf-8"), client))
 
     def __del__(self):
         self.socket.close()
