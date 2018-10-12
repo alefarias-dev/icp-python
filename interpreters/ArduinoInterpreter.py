@@ -33,7 +33,8 @@ class ArduinoInterpreter:
 
         # R4
         if action == 'getDeviceList':
-            self.device.send_devices_status_list(client)
+            host, port = tuple(protocol_message['origin'])
+            self.device.send_devices_status_list((host, port))
             return
 
         # R5 - From Raspberry

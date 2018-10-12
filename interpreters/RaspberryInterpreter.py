@@ -12,4 +12,5 @@ class RaspberryInterpreter:
 
         if action == 'deviceList':
             devices_list = dict(protocol_message['list'])
-            self.device.update_devices_status_list(client, devices_list)
+            origin = protocol_message['origin']
+            self.device.update_devices_status_list(tuple(origin), devices_list)

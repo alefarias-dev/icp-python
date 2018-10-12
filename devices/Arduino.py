@@ -1,3 +1,4 @@
+import random
 import time
 from threading import Thread
 
@@ -8,11 +9,12 @@ from resources.Resource import Resource
 
 class Arduino(Device, Thread):
 
-    def __init__(self, address, name):
+    def __init__(self, address, name, failure_prob):
         Thread.__init__(self)
         super().__init__(address, name)
         self.resource = Resource(f"{name}-RESOURCE")
         self.interpreter = ArduinoInterpreter(self)
+        self.failure_prob = failure_prob
 
     def set_resource_on(self):
         self.resource.set_on()
@@ -32,9 +34,18 @@ class Arduino(Device, Thread):
     def send_devices_status_list(self, destination):
         message = {
             'action': 'deviceList',
-            'list': self.devices_status
+            'origin': self.address,
+            'list': self.parse_device_status()
         }
-        self.udp_client.send_message(destination, self.prepare_message(message))
+        self.tcp_client.send_message(destination, self.prepare_message(message))
+
+    def parse_device_status(self):
+        parsed = {}
+        for device in self.devices_status.keys():
+            host, port = device
+            key = ":".join([host, str(port)])
+            parsed[key] = self.devices_status[device]
+        return parsed
 
     def keep_alive_to_all(self):
         message = {
@@ -42,7 +53,8 @@ class Arduino(Device, Thread):
             'device': self.address,
             'timestamp': round(time.time())
         }
-        for device in self.devices_status.keys():
+        device_status_copy = self.devices_status.copy()
+        for device in device_status_copy:
             self.udp_client.send_message((device[0], device[1]+1), self.prepare_message(message))
 
     def call_to_action(self, message, client):
@@ -50,6 +62,9 @@ class Arduino(Device, Thread):
 
     def run(self):
         while True:
-            time.sleep(5)
+            time.sleep(.5)
             self.keep_alive_to_all()
-            print(f"{self.name}: {self.devices_status}")
+            # print(f"{self.name}: {self.devices_status}")
+            if random.random() < self.failure_prob:
+                print(f"{self.name}: I failed!")
+                time.sleep(10)
