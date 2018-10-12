@@ -1,5 +1,10 @@
+import sys
 import random
 import time
+
+sys.path.append('..')
+
+from datetime import datetime
 from threading import Thread
 
 from devices.Device import Device
@@ -55,7 +60,10 @@ class Arduino(Device, Thread):
         }
         device_status_copy = self.devices_status.copy()
         for device in device_status_copy:
-            self.udp_client.send_message((device[0], device[1]+1), self.prepare_message(message))
+            address = (device[0], device[1] + 1)
+            self.udp_client.send_message(address, self.prepare_message(message))
+            with open('log', 'a') as log:
+                log.write(f'{datetime.now()}: {self.name} (keep-alive) -> {address}\n')
 
     def call_to_action(self, message, client):
         self.interpreter.interprets_message(message, client)
@@ -64,7 +72,6 @@ class Arduino(Device, Thread):
         while True:
             time.sleep(.5)
             self.keep_alive_to_all()
-            # print(f"{self.name}: {self.devices_status}")
             if random.random() < self.failure_prob:
                 print(f"{self.name}: I failed!")
                 time.sleep(10)

@@ -1,4 +1,8 @@
+import sys
 import json
+
+sys.path.append('..')
+
 from net_utils.tcp.TCPClient import TCPClient
 from net_utils.tcp.TCPServer import TCPServer
 from net_utils.udp.UDPClient import UDPClient

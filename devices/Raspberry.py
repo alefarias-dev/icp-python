@@ -1,4 +1,9 @@
 import time
+import sys
+
+sys.path.append('..')
+
+from datetime import datetime
 from threading import Thread
 
 from devices.Arduino import Arduino
@@ -25,6 +30,8 @@ class Raspberry(Device, Thread):
             self.udp_client.send_message((device[0], device[1] + 1), self.prepare_message(message))
 
     def update_devices_status_list(self, device, devices_list):
+        with open('log', 'a') as log:
+            log.write(f'{datetime.now()}: {self.name} (receive device status list from) -> {device}\n')
         devices = devices_list.items()
         devices_list = [((device.split(":")[0], int(device.split(":")[1])), timestamp)
                         for device, timestamp in devices]
@@ -47,6 +54,8 @@ class Raspberry(Device, Thread):
                 self.devices_status[device] = 0
             else:
                 self.devices_status[device] = 1
+        with open('log', 'a') as log:
+            log.write(f'{datetime.now()}: {self.name} (update device status)\n')
 
     def add_new_device(self, device_address):
         self.devices.append(device_address)
@@ -71,7 +80,7 @@ class Raspberry(Device, Thread):
             print(f"Device status: {self.devices_status}")
 
     def __del__(self):
-        self.tcp_client.socket.close()
+        self.udp_server.socket.close()
         self.tcp_server.socket.close()
 
 
