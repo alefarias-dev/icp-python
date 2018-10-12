@@ -7,8 +7,6 @@ class TCPServer(Thread):
     def __init__(self, address, port, device):
         super().__init__()
         self.device = device
-        self.address = address
-        self.port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.origin = (address, port)
         self.socket.bind(self.origin)

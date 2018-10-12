@@ -6,10 +6,8 @@ class UDPServer(Thread):
 
     def __init__(self, address, port, device):
         super().__init__()
-        self.address = address
-        self.port = port
-        self.origin = (address, port)
         self.device = device
+        self.origin = (address, port)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind(self.origin)
 
