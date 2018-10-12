@@ -1,5 +1,6 @@
 import json
 import time
+
 from devices.Arduino import Arduino
 
 
