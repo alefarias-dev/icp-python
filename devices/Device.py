@@ -13,7 +13,7 @@ class Device:
         self.tcp_client = TCPClient()
         self.udp_client = UDPClient()
         self.tcp_server = None
-        self.tcp_client = None
+        self.udp_server = None
         self.init_tcp_server()
         self.init_udp_server()
         self.devices_status = {}

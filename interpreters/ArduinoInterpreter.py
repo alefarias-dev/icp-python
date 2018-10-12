@@ -7,21 +7,22 @@ class ArduinoInterpreter:
     def __init__(self, device):
         self.device = device
 
-    def interprets_message(self, msg, client=("localhost", 9087)):
+    def interprets_message(self, msg, client):
         protocol_message = json.loads(msg.decode('utf-8'))
         action = protocol_message['action']
 
         # A1 - From Arduino
         if action == 'keepAlive':
             timestamp = protocol_message['timestamp']
-            self.device.update_device_keep_alive(client, timestamp)
+            device_address = protocol_message['device']
+            self.device.update_device_keep_alive(tuple(device_address), timestamp)
             return
 
         # R1 - From Raspberry
         if action == 'newDevice':
             new_device = protocol_message['device']
             timestamp = round(time.time())
-            self.device.add_new_device(new_device, timestamp)
+            self.device.add_new_device(tuple(new_device), timestamp)
             return
 
         # R2

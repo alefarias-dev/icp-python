@@ -39,10 +39,11 @@ class Arduino(Device, Thread):
     def keep_alive_to_all(self):
         message = {
             'action': 'keepAlive',
-            'timestamp': time.time()
+            'device': self.address,
+            'timestamp': round(time.time())
         }
         for device in self.devices_status.keys():
-            self.udp_client.send_message(device, self.prepare_message(message))
+            self.udp_client.send_message((device[0], device[1]+1), self.prepare_message(message))
 
     def call_to_action(self, message, client):
         self.interpreter.interprets_message(message, client)
@@ -50,5 +51,5 @@ class Arduino(Device, Thread):
     def run(self):
         while True:
             time.sleep(5)
-            print(f"{self.name} sending keep-alive")
             self.keep_alive_to_all()
+            print(f"{self.name}: {self.devices_status}")
