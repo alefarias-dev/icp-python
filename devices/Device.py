@@ -14,22 +14,20 @@ class Device:
     def __init__(self, address, name):
         self.name = name
         self.address = address
+        host, port = self.address
         self.tcp_client = TCPClient()
         self.udp_client = UDPClient()
-        self.tcp_server = None
-        self.udp_server = None
-        self.init_tcp_server()
-        self.init_udp_server()
-        self.devices_status = {}
-
-    def init_tcp_server(self):
         self.tcp_server = TCPServer(*self.address, self)
-        self.tcp_server.start()
-
-    def init_udp_server(self):
-        host, port = self.address
         self.udp_server = UDPServer(host, port + 1, self)
+        self.tcp_server.start()
         self.udp_server.start()
+        self.devices_status = {}
 
     def prepare_message(self, message_dict):
         return json.dumps(message_dict).encode("utf-8")
+
+    def __del__(self):
+        self.tcp_client.socket.close()
+        self.udp_client.socket.close()
+        self.tcp_server.socket.close()
+        self.udp_server.socket.close()
