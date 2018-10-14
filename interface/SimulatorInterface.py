@@ -1,9 +1,11 @@
 import json
 import sys
 
+sys.path.append('..')
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QFrame, QSplitter, QLabel, \
-    QGridLayout, QTextBrowser, QTextEdit, QPlainTextEdit
+    QGridLayout, QTextBrowser, QPlainTextEdit
 
 from simulation.Simulator import ICPSimulator
 
@@ -24,7 +26,7 @@ class ICPSimulatorInterface(QWidget):
         self.right_layout = QGridLayout(self.right)
         self.left_layout = QGridLayout(self.left)
         self.setWindowTitle("Visual Simulation of ICP")
-        self.resize(800, 500)
+        self.resize(1200, 500)
         self.load_ui()
         self.show()
 
