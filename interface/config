@@ -1,0 +1,34 @@
+{
+    "devices": {
+        "0": {
+            "name": "ARDUINO-01",
+            "host": "localhost",
+            "port": 10000,
+            "failure_risk": 0.5
+        },
+        "1": {
+            "name": "ARDUINO-02",
+            "host": "localhost",
+            "port": 10002,
+            "failure_risk": 0.1
+        },
+        "2": {
+            "name": "ARDUINO-03",
+            "host": "localhost",
+            "port": 10004,
+            "failure_risk": 0.02
+        },
+        "3": {
+            "name": "ARDUINO-04",
+            "host": "localhost",
+            "port": 10006,
+            "failure_risk": 0.001
+        },
+        "4": {
+            "name": "ARDUINO-05",
+            "host": "localhost",
+            "port": "10008",
+            "failure_risk": 0.13
+        }
+    }
+}

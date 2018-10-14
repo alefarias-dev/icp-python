@@ -1,5 +1,6 @@
-import sys
 import json
+import sys
+import time
 
 sys.path.append('..')
 
@@ -10,8 +11,9 @@ from devices.Raspberry import Raspberry
 
 class ICPSimulator(Thread):
 
-    def __init__(self):
+    def __init__(self, interface_simulator):
         super().__init__()
+        self.interface_simulator = interface_simulator
         self.configuration = {}
         self.devices = []
         self.devices_address = []
@@ -49,15 +51,23 @@ class ICPSimulator(Thread):
 
     def start_raspberry(self):
         self.raspberry.start()
-        self.raspberry.join()
 
-    def start_simulation(self):
+    def run(self):
         self.create_devices()
         self.start_devices()
         self.associate_devices()
         self.start_raspberry()
+        if self.interface_simulator:
+            while True:
+                time.sleep(1.3)
+                self.update_interface()
+
+    def update_interface(self):
+        self.interface_simulator.update_log_text()
+        self.interface_simulator.update_devices_status()
 
 
 if __name__ == "__main__":
-    simulator = ICPSimulator()
-    simulator.start_simulation()
+    simulator = ICPSimulator(None)
+    simulator.start()
+    simulator.join()

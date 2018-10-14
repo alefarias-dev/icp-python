@@ -1,5 +1,6 @@
-import time
+import json
 import sys
+import time
 
 sys.path.append('..')
 
@@ -77,7 +78,19 @@ class Raspberry(Device, Thread):
             self.get_devices_timestamp()
             self.update_last_timestamp_devices()
             self.update_devices_status()
+            dev_status = json.dumps(self.parse_devices_status(), indent=4)
             print(f"Device status: {self.devices_status}")
+            with open('devices_status', 'w') as devices_status:
+                devices_status.write(dev_status)
+
+
+    def parse_devices_status(self):
+        parsed = {}
+        for device in self.devices_status.keys():
+            host, port = device
+            key = ":".join([host, str(port)])
+            parsed[key] = self.devices_status[device]
+        return parsed
 
     def __del__(self):
         self.udp_server.socket.close()

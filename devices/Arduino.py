@@ -44,14 +44,6 @@ class Arduino(Device, Thread):
         }
         self.tcp_client.send_message(destination, self.prepare_message(message))
 
-    def parse_device_status(self):
-        parsed = {}
-        for device in self.devices_status.keys():
-            host, port = device
-            key = ":".join([host, str(port)])
-            parsed[key] = self.devices_status[device]
-        return parsed
-
     def keep_alive_to_all(self):
         message = {
             'action': 'keepAlive',
@@ -68,10 +60,19 @@ class Arduino(Device, Thread):
     def call_to_action(self, message, client):
         self.interpreter.interprets_message(message, client)
 
+    def parse_device_status(self):
+        parsed = {}
+        for device in self.devices_status.keys():
+            host, port = device
+            key = ":".join([host, str(port)])
+            parsed[key] = self.devices_status[device]
+        return parsed
+
     def run(self):
         while True:
             time.sleep(.5)
             self.keep_alive_to_all()
             if random.random() < self.failure_prob:
-                print(f"{self.name}: I failed!")
+                with open('log', 'a') as log:
+                    log.write(f'{datetime.now()}: {self.name} (FAILED)\n')
                 time.sleep(10)
