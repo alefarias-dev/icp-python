@@ -1,0 +1,6 @@
+COMO LER O CÓDIGO
+
+Os dispositivos que compoem a arquitetura do sistema distribuido podem ser encontrados na pasta devices, os interpretadores
+das mensagens estão disponíveis na pasta interpreters, a implementação dos servidores e clientes TCP e UDP são encontradas
+na pasta net_utils ambas. A classe de simulação está dentro da pasta simulation enquanto a classe que renderiza a simulação
+em interface está dentro da pasta interface.
