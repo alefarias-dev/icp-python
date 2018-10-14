@@ -1,0 +1,11 @@
+TEMPORIZACAO
+
+Os tempos de keep-alive entre os Arduínos são a cada 0.5 segundos, ou seja, a cada meio segundo, cada Arduíno envia para
+todos os seus conhecidos na rede um sinal de keep-alive. Dada a necessidade de simular uma falha no dispositivo quando a
+falha ocorre, o Arduíno fica 10 segundos sem realizar nenhuma ação, ou seja, não se comunica com ninguém. A cada 3 segundos
+o Raspberry pede para todos os dispositivos da rede a lista de timestamp dos dispositivos conhecidos, com base nesta lista
+captura o último timestamp de cada dispositivo e checa se a diferença do último timestamp até o momento da checagem
+é maior que 4 segundos, se for, declara-o como inativo, caso contrário, declara-o como ativo.
+
+Ao inicializar uma simulação, se esta for via interface, a cada 1.3 segundo a classe Simulator faz uma chamada a  classe
+SimulatorInterface para atualizar os dados de log e dispositivos ativos.
