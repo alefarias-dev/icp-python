@@ -1,0 +1,17 @@
+PROBLEMAS ENCONTRADOS
+
+
+Encerrar programa por completo
+
+Devido a natureza de simulação e necessidade de desacoplamento entre os dispositivos implementados, várias Threads
+tiveram que ser implementadas, no entanto ao executar a simulação no modo terminal o usuário precisa ou fechar o terminal
+para finalizar o programa, ou mandar um sinal de cancelamento de processo (Ctrl+C) para finalizar.
+
+
+Portas dos sockets em utilização
+
+Ao executar e fechar uma simulação o programa teve que esperar um período de tempo para iniciar novamente no sistema
+operacional Ubuntu 18, tentou-se corrigir este problema colocando no método destrutor __del__ das classes que possuem
+clientes e servidores TCP e UDP os comandos que fecham os sockets abertos. Todavia mesmo com este comando o programa
+ainda precisa esperar um certo tempo (em média 20 segundos) até iniciar novamente. Este problema não foi observado
+no sistema operacional Windows 10.
