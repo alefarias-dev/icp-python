@@ -29,6 +29,12 @@
             "host": "localhost",
             "port": "10008",
             "failure_risk": 0.13
+        },
+        "5": {
+            "name": "ARDUINO-06",
+            "host": "localhost",
+            "port": "10010",
+            "failure_risk": 0.05
         }
     }
 }

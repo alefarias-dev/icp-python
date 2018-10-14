@@ -43,8 +43,9 @@ class Raspberry(Device, Thread):
         for device in all_devices:
             last_timestamp = 0
             for device_list in self.devices_timestamp_lists.keys():
-                device_timestamp = self.devices_timestamp_lists[device_list][device]
-                last_timestamp = last_timestamp if last_timestamp > device_timestamp else device_timestamp
+                if device in self.devices_timestamp_lists[device_list]:
+                    device_timestamp = self.devices_timestamp_lists[device_list][device]
+                    last_timestamp = last_timestamp if last_timestamp > device_timestamp else device_timestamp
             self.last_timestamp_devices[device] = last_timestamp
 
     def update_devices_status(self):
