@@ -1,0 +1,27 @@
+TESTES
+
+Os testes realizados com o simulador mostraram resultados interessantes dado o objetivo do projeto, no primeiro testes,
+3 dispositivos foram configurados com as probabilidades de falha de 50%, 10% e 0.01%, observou-se que a rede toda passou
+a conhecer todos os dipositivos conectados, pois o raspberry sempre envia o endereço de novos dispositivos para dispositivos
+que já estavam na rede, desse modo quando o segundo dispositivo entrou na rede, o dispositivo mais antigo não estava em
+sua lista de conhecidos, todavia, como o mais antigo recebeu seu endereço e o enviou seu keep-alive, o dispositivo mais
+recebte pode então registrar dispositivos mais antigos em sua lista de keep-alives, fazendo a rede de Arduínos completamente
+conectadas até que uma parte dos mais antigos enviasse keep-alive para os mais novos.
+
+Aumentou-se então a quantidade de dispositivos para 6 (com as mesmas probabilidades que se encontram no arquivo config
+da classe que realiza simulações e mostra em um interface).
+
+Durante os testes detectou-se um problema com a biblioteca de interface, devido a suas limitações, quando o arquivo de log
+está muito cheio a interface pode travar pois não consegue renderizar a quantidade de texto gerada pela simulação.
+
+Os testes foram realizados nos sistemas operacionais Windows 10 e Ubuntu 18, mas apenas no SO Windows 10 se observou um
+problema com os sockets TCP (especificamente os sockets clientes), o problema ocorria quando o servidor recusava a realização
+de uma conexão com o cliente, uma potencial explicação para esta condição pode ser o fato de que os servidores TCP não
+abrem novas Threads para novos clientes, desse modo, o servidor TCP atende apenas uma conexão por vez, como o Raspberry
+envia a requisição da lista de timestamps para todos os devices da rede em um curto espaço de tempo, as respostas precisariam
+então formar uma fila esperando a conexão ser liberada para o envio da mensagem. O que foi tradado de modo que se o servidor
+rejeitasse a conexão, o TCPClient esperaria 0.2 segundos e tentaria novamente a conexão até que esta fosse estabelecida.
+
+De modo geral os testes foram satisfatórios, ou seja, o Raspberry conseguiu manter a lista de dispositivos da rede com seus status
+de atividade e inatividade corretos, apesar do delay devido a necessidade de calcular a diferença entre os timestamps para
+cada dispositivo na rede.
