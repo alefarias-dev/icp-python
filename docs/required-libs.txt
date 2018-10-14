@@ -1,3 +1,6 @@
 json
+time
+sys
 socket
 threading
+pyqt5
